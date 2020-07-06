@@ -5,6 +5,7 @@ from datetime import datetime
 import requests
 from bs4 import BeautifulSoup
 import json
+import time
 LH_URI = r'https://jeonse.lh.or.kr/jw/rs/search/reSearchRthousList.do?currPage='
 '''
 values에 따옴표 씌워줘야함
@@ -36,7 +37,7 @@ months = {
     'Dec' : '12'
 }
 def InitDict():
-    InsertFields = {
+    Dict_Fields = {
     'brkrNm' : '',
     'brkrgComments': '',
     'confmAt':'',
@@ -76,7 +77,7 @@ def InitDict():
     'telno':''
     }
 
-    return InsertFields
+    return Dict_Fields
 
 def CreateTable():
     conn = sqlite3.connect('LH.db')
@@ -129,7 +130,7 @@ def CreateTable():
     return conn
 
 def InsertData(conn, fields, values):
-    # print("INSERT INTO RESULT(" + fields[:-1]+ ")VALUES(" + str(values)[1:-1]+")")
+    # pprint(str(values)[1:-1])
     try:
         conn.execute("INSERT INTO RESULT(" + fields[:-1]+ ")VALUES(" + str(values)[1:-1]+")")
         print("INSERT DONE")
@@ -141,39 +142,42 @@ if __name__ == "__main__":
     
     conn = CreateTable()
     #광진구~강동구 근처?
-    test = 1
+
     #방 100개가 안 됨
-    if test == 1:
-        for i in range(1, 10):
-            html = requests.post(LH_URI + str(i), addrData)
-            try:
-                json_data = html.json()
-            except json.decoder.JSONDecodeError:
-                print("JSON invalid Error")
-            #방 없으면 break
-            if len(json_data["rthousList"]) <= 0: break
-            #있으면 돌고
-            else:   
+    for i in range(1, 10):
+        html = requests.post(LH_URI + str(i), addrData)
+
+        try:
+            json_data = html.json()
+
+        except json.decoder.JSONDecodeError:
+            print("JSON invalid Error")
+
+        #방 없으면 break
+        if len(json_data["rthousList"]) <= 0: 
+            break
+
+        #있으면 돌고
+        else:   
+            
+            # print(len(json_data["rthousList"]))
+            time.sleep(5)
+            for detail in json_data["rthousList"]:
+                InsertFields = InitDict()
                 fields = str()
                 values = list()
-                for detail in json_data["rthousList"]:
-                    InsertFields = InitDict()
-                    for keys in detail.keys():
-                        InsertFields[keys] = detail[keys]
-                    #7이 제일 많음 37
-                    
-                    # pprint(InsertFields)
-                    for key in InsertFields.keys():
-                        if key is 'rthousRgsde':
-                            print("key is rthousRgsde: " + str(InsertFields[key]))
-                            dttm = datetime.strptime(InsertFields[key], '%b %d, %Y %I:%M:%S %p')
-                            print(dttm)
 
-                            fields += (key + ',')
-                            values.append(str(dttm))
-                        else:
-                            fields += (key + ',')
-                            values.append(str(InsertFields[key]))
-                            # print(values)
+                for key in detail.keys():
+                    InsertFields[key] = detail[key]
 
-                    InsertData(conn, fields, values)
+                    if key is 'rthousRgsde':
+                        dttm = datetime.strptime(InsertFields[key], '%b %d, %Y %I:%M:%S %p')
+                        fields += (key + ',')
+                        values.append(str(dttm))
+                    else:
+                        fields += (key + ',')
+                        values.append(str(InsertFields[key]))
+                pprint(InsertFields)
+                time.sleep(5)
+
+                # InsertData(conn, fields, values)
