@@ -1,9 +1,7 @@
-import pickle
 from pprint import pprint
 import sqlite3
 from datetime import datetime
 import requests
-from bs4 import BeautifulSoup
 import json
 import time
 LH_URI = r'https://jeonse.lh.or.kr/jw/rs/search/reSearchRthousList.do?currPage='
@@ -136,7 +134,7 @@ def InsertData(conn, fields, values):
         print("INSERT DONE")
         conn.commit()
     except sqlite3.IntegrityError:
-        print("duplicated")
+        print("DUPLICATED OR ERROR")
 
 if __name__ == "__main__":
     
@@ -148,36 +146,27 @@ if __name__ == "__main__":
         html = requests.post(LH_URI + str(i), addrData)
 
         try:
+            #이거 초기화 시켜줘야 함 
             json_data = html.json()
+            print("len(json_data[rthousList])", len(json_data["rthousList"]))
 
         except json.decoder.JSONDecodeError:
             print("JSON invalid Error")
-
-        #방 없으면 break
-        if len(json_data["rthousList"]) <= 0: 
             break
 
-        #있으면 돌고
-        else:   
-            
-            # print(len(json_data["rthousList"]))
-            time.sleep(5)
-            for detail in json_data["rthousList"]:
-                InsertFields = InitDict()
-                fields = str()
-                values = list()
+        for detail in json_data["rthousList"]:
+            InsertFields = InitDict()
+            fields = str()
+            values = list()
 
-                for key in detail.keys():
-                    InsertFields[key] = detail[key]
+            for key in detail.keys():
+                InsertFields[key] = detail[key]
+                if key == 'rthousRgsde':
+                    dttm = datetime.strptime(InsertFields[key], '%b %d, %Y %I:%M:%S %p')
+                    fields += (key + ',')
+                    values.append(str(dttm))
+                else:
+                    fields += (key + ',')
+                    values.append(str(InsertFields[key]))
+            InsertData(conn, fields, values)
 
-                    if key is 'rthousRgsde':
-                        dttm = datetime.strptime(InsertFields[key], '%b %d, %Y %I:%M:%S %p')
-                        fields += (key + ',')
-                        values.append(str(dttm))
-                    else:
-                        fields += (key + ',')
-                        values.append(str(InsertFields[key]))
-                pprint(InsertFields)
-                time.sleep(5)
-
-                # InsertData(conn, fields, values)
