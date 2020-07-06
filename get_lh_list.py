@@ -14,7 +14,13 @@ class MainWindow(QMainWindow, form_class):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
-        
+    
+        columnLabels = ["등록일"]
+        self.tableWidget.setColumnCount(10)
+        self.tableWidget.setRowCount(10)
+        self.tableWidget.setHorizontalHeaderLabels(columnLabels)
+
+
 LH_URI = r'https://jeonse.lh.or.kr/jw/rs/search/reSearchRthousList.do?currPage='
 
 setHouseInfo = {
