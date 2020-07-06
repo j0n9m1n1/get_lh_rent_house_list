@@ -1,0 +1,44 @@
+def InitDict():
+    Dict_Fields = {
+    'brkrNm' : '',              #부동산이름
+    'brkrgComments': '',        #부동산소개
+    'confmAt':'',               #집주인확인매물
+    'mberAdres':'',             #부동산주소
+    'mberNm':'',                #글쓴이
+    'rsn':'',                   #?????
+    'rthousAllFloor':'',
+    'rthousBdtyp':'',           #0:아파트, 1:단독, 2:다가구, 3:연립, 4:다세대, 5:오피스텔, 6:근생주택, 7:빌라
+    'rthousDelngSttus':'',
+    'rthousExclAr':'',          #면적
+    'rthousFakeSale':'',        #허위매물인가??
+    'rthousFloor':'',           #층수
+    'rthousGtn':'',             #보증금
+    'rthousHppr':'',
+    'rthousId':'',              #unique
+    'rthousInfoProvdTy':'',     
+    'rthousLnmAdres':'',        #집 지번 주소
+    'rthousLnmAdresDetail':'',  #집 지번 상세주소
+    'rthousLreaId':'',          #중개사 아이디
+    'rthousManagect':'',        #관리비
+    'rthousMberMbtlnum':'',     #중개사 번호
+    'rthousMberMbtlnumOrigin':'',#중개사 번호 원본
+    'rthousMberTelno':'',       #중개사무소 번호
+    'rthousMberTelnoOrigin':'', #중개사무소 번호 원본
+    'rthousMtht':'',            #월세
+    'rthousNm':'',
+    'rthousRdnmadr':'',         #집 도로명 주소
+    'rthousRdnmadrDetail':'',   #집 도로명 상세 주소
+    'rthousRentStle':'',
+    'rthousRgsde':'',           #등록일
+    'rthousRoomCo':'',          #방 개수
+    'rthousSumryDc':'',         #상세설명
+    'rthousSumryKwrd':'',       #키워드
+    'rthousToiletCo':'',        #화장실 개수
+    'rthousXcnts':'',           #집 x좌표 
+    'rthousYdnts':'',           #집 y좌표
+    'telno':'',
+    'rthousSumrySj': '',        #모르겠다 요약
+    'rthousInfoProvdLink':''    #제공자 링크
+    }
+
+    return Dict_Fields

@@ -4,11 +4,20 @@ from datetime import datetime
 import requests
 import json
 import time
+import sys
+from PyQt5.QtWidgets import *
+from PyQt5 import uic
+
+form_class = uic.loadUiType("mainwindow_lh.ui")[0]
+
+class MainWindow(QMainWindow, form_class):
+    def __init__(self):
+        super().__init__()
+        self.setupUi(self)
+        
 LH_URI = r'https://jeonse.lh.or.kr/jw/rs/search/reSearchRthousList.do?currPage='
-'''
-values에 따옴표 씌워줘야함
-'''
-addrData = {
+
+setHouseInfo = {
     'mi': '2872', 
     'rthousBdtyp': '9',
     'rthousRentStle' : '9',
@@ -17,65 +26,20 @@ addrData = {
     'rthousToiletCo' : '-1',
     'northEast': '(37.563168390019136, 127.1907369136917)',
     'southWest': '(37.47681474463716, 127.05195750904815)',
+    #광진구~강동구 근처?
     'rthousGtnFrom': '0',
     'rthousGtnTo': '12000'
 }
-months = {
-    'Jan' : '1',
-    'Feb' : '2',
-    'Mar' : '3',
-    'Apr' : '4',
-    'May' : '5',
-    'Jun' : '6',
-    'Jul' : '7',
-    'Aug' : '8',
-    'Sep' : '9',
-    'Oct' : '10',
-    'Nov' : '11',
-    'Dec' : '12'
-}
-def InitDict():
-    Dict_Fields = {
-    'brkrNm' : '',
-    'brkrgComments': '',
-    'confmAt':'',
-    'mberAdres':'',
-    'mberNm':'',
-    'rsn':'',
-    'rthousAllFloor':'',
-    'rthousBdtyp':'',
-    'rthousDelngSttus':'',
-    'rthousExclAr':'',
-    'rthousFakeSale':'',
-    'rthousFloor':'',
-    'rthousGtn':'',
-    'rthousHppr':'',
-    'rthousId':'',
-    'rthousInfoProvdTy':'',
-    'rthousLnmAdres':'',
-    'rthousLnmAdresDetail':'',
-    'rthousLreaId':'',
-    'rthousManagect':'',
-    'rthousMberMbtlnum':'',
-    'rthousMberMbtlnumOrigin':'',
-    'rthousMberTelno':'',
-    'rthousMberTelnoOrigin':'',
-    'rthousMtht':'',
-    'rthousNm':'',
-    'rthousRdnmadr':'',
-    'rthousRdnmadrDetail':'',
-    'rthousRentStle':'',
-    'rthousRgsde':'',
-    'rthousRoomCo':'',
-    'rthousSumryDc':'',
-    'rthousSumryKwrd':'',
-    'rthousToiletCo':'',
-    'rthousXcnts':'',
-    'rthousYdnts':'',
-    'telno':''
-    }
 
-    return Dict_Fields
+
+def SelectTable(conn):
+    cur = conn.cursor()
+    cur.execute("SELECT rthousId FROM result")
+
+    rows = cur.fetchall()
+    for row in rows:
+        print(row)
+    conn.close()
 
 def CreateTable():
     conn = sqlite3.connect('LH.db')
@@ -137,36 +101,40 @@ def InsertData(conn, fields, values):
         print("DUPLICATED OR ERROR")
 
 if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    window = MainWindow()
+    window.show()
+    app.exec_()
     
     conn = CreateTable()
-    #광진구~강동구 근처?
 
-    #방 100개가 안 됨
-    for i in range(1, 10):
-        html = requests.post(LH_URI + str(i), addrData)
+    for i in range(1, 100):
+        html = requests.post(LH_URI + str(i), setHouseInfo)
 
         try:
-            #이거 초기화 시켜줘야 함 
             json_data = html.json()
-            print("len(json_data[rthousList])", len(json_data["rthousList"]))
 
         except json.decoder.JSONDecodeError:
             print("JSON invalid Error")
             break
 
         for detail in json_data["rthousList"]:
-            InsertFields = InitDict()
+            InsertFields = dict()
             fields = str()
             values = list()
 
             for key in detail.keys():
                 InsertFields[key] = detail[key]
+
                 if key == 'rthousRgsde':
                     dttm = datetime.strptime(InsertFields[key], '%b %d, %Y %I:%M:%S %p')
                     fields += (key + ',')
                     values.append(str(dttm))
+
                 else:
                     fields += (key + ',')
                     values.append(str(InsertFields[key]))
+
             InsertData(conn, fields, values)
 
+    SelectTable(conn)
