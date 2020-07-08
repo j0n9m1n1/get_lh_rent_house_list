@@ -20,10 +20,9 @@ setHouseInfo = {
     "northEast": "(37.563168390019136, 127.1907369136917)",
     "southWest": "(37.47681474463716, 127.05195750904815)",
     # 광진구~강동구 근처?
-    "rthousGtnFrom": "0",
-    "rthousGtnTo": "12000",
+    "rthousGtnFrom": "0"
+    # "rthousGtnTo": "12000",
 }
-
 
 form_class = uic.loadUiType("mainwindow_lh.ui")[0]
 
@@ -33,20 +32,22 @@ class MainWindow(QMainWindow, form_class):
         super().__init__()
         self.setupUi(self)
 
-        columnLabels = ["등록일", "주소", "보증금", "크기"]
+        columnLabels = ["등록일", "주소", "보증금", "월세", "관리비", "평", "방", "화장실"]
         self.tableWidget_db.setColumnCount(10)
-        self.tableWidget_db.setRowCount(10)
+        self.tableWidget_db.setRowCount(0)
         self.tableWidget_db.setHorizontalHeaderLabels(columnLabels)
 
         self.conn = sqlite3.connect("LH.db")
 
-        self.InitDB()
-        self.SelectForTable()
+        # self.InitDB()
+        # self.SelectForTable()
         print("initDB Done")
         self.btn_search.clicked.connect(self.ClickedSearchBtn)
 
     def ClickedSearchBtn(self):
-
+        startDate = 0
+        endDate = 0
+        grtMoney = 0
         self.SelectForTable()
 
     def CreateTable(self):
@@ -146,15 +147,43 @@ class MainWindow(QMainWindow, form_class):
                     else:
                         fields += key + ","
                         values.append(str(InsertFields[key]))
-                print(str(i) + ": ", end="")
+                pprint(str(i) + ": ", end="")
                 self.InsertData(fields, values)
 
     def SelectForTable(self):
         conn = self.conn
         cur = conn.cursor()
-        cur.execute("SELECT rthousRgsde FROM result")
+        cur.execute(
+            "SELECT rthousRgsde, rthousLnmAdres, rthousLnmAdresDetail, rthousGtn, rthousMtht, rthousManagect, rthousExclAr, rthousRoomCo, rthousToiletCo FROM result ORDER BY rthousRgsde DESC"
+        )
         rows = cur.fetchall()
         for i, row in enumerate(rows):
+            rowCount = self.tableWidget_db.rowCount()
+            self.tableWidget_db.setRowCount(rowCount + 1)
+            # 등록일
+            self.tableWidget_db.setItem(rowCount - 1, 0, QTableWidgetItem(str(row[0])))
+            # 주소(지번) + 상세주소(지번)
+            if row[2] == None:
+                self.tableWidget_db.setItem(
+                    rowCount - 1, 1, QTableWidgetItem(str(row[1]))
+                )
+            else:
+                self.tableWidget_db.setItem(
+                    rowCount - 1, 1, QTableWidgetItem(str(row[1]) + " " + str(row[2]))
+                )
+            # 보증금
+            self.tableWidget_db.setItem(rowCount - 1, 2, QTableWidgetItem(str(row[3])))
+            # 월세
+            self.tableWidget_db.setItem(rowCount - 1, 3, QTableWidgetItem(str(row[4])))
+            # 관리비
+            self.tableWidget_db.setItem(rowCount - 1, 4, QTableWidgetItem(str(row[5])))
+            # 면적
+            self.tableWidget_db.setItem(rowCount - 1, 5, QTableWidgetItem(str(row[6])))
+            # 방
+            self.tableWidget_db.setItem(rowCount - 1, 6, QTableWidgetItem(str(row[7])))
+            # 화장실
+            self.tableWidget_db.setItem(rowCount - 1, 7, QTableWidgetItem(str(row[8])))
+
             print(str(i) + ": " + str(row))
 
 

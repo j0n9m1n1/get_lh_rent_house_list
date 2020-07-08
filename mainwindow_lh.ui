@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>1304</width>
+    <height>603</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -23,18 +23,14 @@
       <height>471</height>
      </rect>
     </property>
-   </widget>
-   <widget class="QTextEdit" name="textEdit_grt_money">
-    <property name="geometry">
-     <rect>
-      <x>130</x>
-      <y>30</y>
-      <width>111</width>
-      <height>21</height>
-     </rect>
+    <property name="sizeAdjustPolicy">
+     <enum>QAbstractScrollArea::AdjustToContents</enum>
     </property>
-    <property name="verticalScrollBarPolicy">
-     <enum>Qt::ScrollBarAlwaysOff</enum>
+    <property name="selectionBehavior">
+     <enum>QAbstractItemView::SelectRows</enum>
+    </property>
+    <property name="sortingEnabled">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QLabel" name="label_grt_money">
@@ -48,19 +44,6 @@
     </property>
     <property name="text">
      <string>보증금</string>
-    </property>
-   </widget>
-   <widget class="QTextEdit" name="textEdit_reg_date">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>30</y>
-      <width>111</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="verticalScrollBarPolicy">
-     <enum>Qt::ScrollBarAlwaysOff</enum>
     </property>
    </widget>
    <widget class="QLabel" name="label_reg_date">
@@ -115,13 +98,105 @@
      <string>Search</string>
     </property>
    </widget>
+   <widget class="QComboBox" name="cb_grtMoney">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>30</y>
+      <width>91</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="editable">
+     <bool>true</bool>
+    </property>
+    <property name="currentText">
+     <string>ALL Date</string>
+    </property>
+    <item>
+     <property name="text">
+      <string>ALL Date</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Today</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Within last 3 day</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Within last 7 day</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Within last 15 day</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Within last 30 day</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QComboBox" name="comboBox_2">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>30</y>
+      <width>91</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="editable">
+     <bool>true</bool>
+    </property>
+    <property name="currentText">
+     <string>ALL Money</string>
+    </property>
+    <item>
+     <property name="text">
+      <string>ALL Money</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>3000</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>6000</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>9000</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>12000</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>20000</string>
+     </property>
+    </item>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>1304</width>
      <height>22</height>
     </rect>
    </property>
