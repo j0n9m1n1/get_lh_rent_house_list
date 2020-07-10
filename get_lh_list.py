@@ -33,11 +33,6 @@ class MainWindow(QMainWindow, form_class):
         super().__init__()
         self.setupUi(self)
 
-        columnLabels = ["등록일", "주소", "보증금", "월세", "관리비", "평", "방", "화장실"]
-        self.tableWidget_db.setColumnCount(10)
-        self.tableWidget_db.setRowCount(0)
-        self.tableWidget_db.setHorizontalHeaderLabels(columnLabels)
-        self.tableWidget_db.
         self.conn = sqlite3.connect("LH.db")
 
         # self.InitDB()
