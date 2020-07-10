@@ -3,10 +3,12 @@ import sqlite3
 from datetime import datetime
 import requests
 import json
-import time
 import sys
+
+from PyQt5.QtWebEngineWidgets import QWebEngineView, QWebEngineSettings
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
+from PyQt5.QtCore import *
 
 LH_URI = r"https://jeonse.lh.or.kr/jw/rs/search/reSearchRthousList.do?currPage="
 
@@ -37,8 +39,18 @@ class MainWindow(QMainWindow, form_class):
 
         # self.InitDB()
         # self.SelectForTable()
+        self.tabWidget.removeTab(1)
+
+        self.tabWidget.removeTab(0)
+        # self.tabWidget.removeTab(2)
+        self.add_new_tab()
         print("initDB Done")
         self.btn_search.clicked.connect(self.ClickedSearchBtn)
+        self.btn_webSearch.clicked.connect(self.ClickedWebSearchBtn)
+
+    def ClickedWebSearchBtn(self):
+        self.add_new_tab(QUrl(self.lineEdit_url.text()), 'Loading...')
+        print(self.lineEdit_url.text())
 
     def ClickedSearchBtn(self):
         startDate = 0
@@ -181,6 +193,24 @@ class MainWindow(QMainWindow, form_class):
             self.tableWidget_db.setItem(rowCount - 1, 7, QTableWidgetItem(str(row[8])))
 
             print(str(i) + ": " + str(row))
+
+    def renew_urlbar(self, qurl, browser):
+        self.lineEdit_url.setText(qurl.toDisplayString())
+
+    def add_new_tab(self, qurl=QUrl('https://google.com'), label='labels'):
+        browser = QWebEngineView()
+        self.webSettings = browser.settings()
+        self.webSettings.setAttribute(QWebEngineSettings.PluginsEnabled, True)
+        self.webSettings.setAttribute(QWebEngineSettings.JavascriptEnabled, True)
+        browser.setUrl(qurl)
+        i = self.tabWidget.addTab(browser, label)
+
+        self.tabWidget.setCurrentIndex(i)
+
+        browser.urlChanged.connect(lambda qurl, browser=browser: self.renew_urlbar(qurl, browser))
+
+        browser.loadFinished.connect(lambda _, i=i, browser=browser:
+                                     self.tabWidget.setTabText(i, browser.page().title()))
 
 
 if __name__ == "__main__":

@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtWebEngineWidgets import *
 from PyQt5.QtCore import *
 
+
 class MyApp(QWidget):
 
     def __init__(self):
@@ -30,6 +31,7 @@ class MyApp(QWidget):
 
     def renew_urlbar(self, qurl, browser):
         self.urlbar.setText(str(qurl))
+
     def add_new_tab(self, qurl=QUrl('https://google.com'), label='labels'):
         browser = QWebEngineView()
         self.webSettings = browser.settings()
@@ -44,6 +46,8 @@ class MyApp(QWidget):
 
         browser.loadFinished.connect(lambda _, i=i, browser=browser:
                                      self.tabs.setTabText(i, browser.page().title()))
+
+
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     ex = MyApp()
