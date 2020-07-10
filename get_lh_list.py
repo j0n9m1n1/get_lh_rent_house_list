@@ -11,6 +11,7 @@ from PyQt5 import uic
 LH_URI = r"https://jeonse.lh.or.kr/jw/rs/search/reSearchRthousList.do?currPage="
 
 setHouseInfo = {
+
     "mi": "2872",
     "rthousBdtyp": "9",
     "rthousRentStle": "9",
@@ -36,7 +37,7 @@ class MainWindow(QMainWindow, form_class):
         self.tableWidget_db.setColumnCount(10)
         self.tableWidget_db.setRowCount(0)
         self.tableWidget_db.setHorizontalHeaderLabels(columnLabels)
-
+        self.tableWidget_db.
         self.conn = sqlite3.connect("LH.db")
 
         # self.InitDB()
