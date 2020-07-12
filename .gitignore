@@ -148,3 +148,5 @@ cython_debug/
 .idea/vcs.xml
 test_kakao_map.html
 webEngineTest.ui
+!/test_kakao_map.html
+!/test_kakao_map.html

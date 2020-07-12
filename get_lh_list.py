@@ -9,22 +9,36 @@ from PyQt5.QtWebEngineWidgets import QWebEngineView, QWebEngineSettings
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
 from PyQt5.QtCore import *
+from PyQt5.QtGui import *
 
 LH_URI = r"https://jeonse.lh.or.kr/jw/rs/search/reSearchRthousList.do?currPage="
 
 setHouseInfo = {
+    "GUNJA": {
+        "mi": "2872",
+        "rthousBdtyp": "9",
+        "rthousRentStle": "9",
+        "rthousDelngSttus": "9",
+        "rthousRoomCo": "-1",
+        "rthousToiletCo": "-1",
+        "northEast": "(37.563168390019136, 127.1907369136917)",
+        "southWest": "(37.47681474463716, 127.05195750904815)",
+        "rthousGtnFrom": "0",
+        "rthousGtnTo": "13000",
+    },
+    "SADANG": {
 
-    "mi": "2872",
-    "rthousBdtyp": "9",
-    "rthousRentStle": "9",
-    "rthousDelngSttus": "9",
-    "rthousRoomCo": "-1",
-    "rthousToiletCo": "-1",
-    "northEast": "(37.563168390019136, 127.1907369136917)",
-    "southWest": "(37.47681474463716, 127.05195750904815)",
-    # 광진구~강동구 근처?
-    "rthousGtnFrom": "0"
-    # "rthousGtnTo": "12000",
+        "mi": "2872",
+        "rthousBdtyp": "9",
+        "rthousRentStle": "9",
+        "rthousDelngSttus": "9",
+        "rthousRoomCo": "-1",
+        "rthousToiletCo": "-1",
+        "northEast": "(37.50135006369378, 126.99113361405719)",
+        "southWest": "(37.45806743112682, 126.90966927353564)",
+        "rthousGtnFrom": "0",
+        "rthousGtnTo": "13000",
+    }
 }
 
 form_class = uic.loadUiType("mainwindow_lh.ui")[0]
@@ -37,20 +51,20 @@ class MainWindow(QMainWindow, form_class):
 
         self.conn = sqlite3.connect("LH.db")
 
-        # self.InitDB()
+        self.InitDB()
         # self.SelectForTable()
+        self.tableWidget_db.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.tabWidget.removeTab(1)
-
         self.tabWidget.removeTab(0)
-        # self.tabWidget.removeTab(2)
-        self.add_new_tab()
+
+        self.AddNewTab()
         print("initDB Done")
         self.btn_search.clicked.connect(self.ClickedSearchBtn)
         self.btn_webSearch.clicked.connect(self.ClickedWebSearchBtn)
 
     def ClickedWebSearchBtn(self):
-        self.add_new_tab(QUrl(self.lineEdit_url.text()), 'Loading...')
-        print(self.lineEdit_url.text())
+        self.AddNewTab(QUrl(self.lineEdit_url.text()), 'Loading...')
+        # print(self.lineEdit_url.text())
 
     def ClickedSearchBtn(self):
         startDate = 0
@@ -127,8 +141,11 @@ class MainWindow(QMainWindow, form_class):
     def InitDB(self):
         self.CreateTable()
 
+        # for key in setHouseInfo.keys():
+        #     print(key)
+        #     pprint(setHouseInfo[key])
         for i in range(1, 5):
-            html = requests.post(LH_URI + str(i), setHouseInfo)
+            html = requests.post(LH_URI + str(i), setHouseInfo["GUNJA"])
 
             try:
                 json_data = html.json()
@@ -155,49 +172,53 @@ class MainWindow(QMainWindow, form_class):
                     else:
                         fields += key + ","
                         values.append(str(InsertFields[key]))
-                pprint(str(i) + ": ", end="")
+                print(str(i) + ": ", end="")
                 self.InsertData(fields, values)
 
     def SelectForTable(self):
         conn = self.conn
         cur = conn.cursor()
+
         cur.execute(
-            "SELECT rthousRgsde, rthousLnmAdres, rthousLnmAdresDetail, rthousGtn, rthousMtht, rthousManagect, rthousExclAr, rthousRoomCo, rthousToiletCo FROM result ORDER BY rthousRgsde DESC"
+            "SELECT rthousRgsde, rthousRdnmadr , rthousRdnmadrDetail, rthousGtn, rthousMtht, rthousManagect, rthousFloor, rthousExclAr, rthousRoomCo, rthousToiletCo FROM result ORDER BY rthousRgsde DESC"
         )
         rows = cur.fetchall()
         for i, row in enumerate(rows):
             rowCount = self.tableWidget_db.rowCount()
             self.tableWidget_db.setRowCount(rowCount + 1)
             # 등록일
-            self.tableWidget_db.setItem(rowCount - 1, 0, QTableWidgetItem(str(row[0])))
+            self.tableWidget_db.setItem(rowCount, 0, QTableWidgetItem(str(row[0])))
             # 주소(지번) + 상세주소(지번)
             if row[2] == None:
                 self.tableWidget_db.setItem(
-                    rowCount - 1, 1, QTableWidgetItem(str(row[1]))
+                    rowCount, 1, QTableWidgetItem(str(row[1]))
                 )
             else:
                 self.tableWidget_db.setItem(
-                    rowCount - 1, 1, QTableWidgetItem(str(row[1]) + " " + str(row[2]))
+                    rowCount, 1, QTableWidgetItem(str(row[1]) + " " + str(row[2]))
                 )
+                # print(str(row[2]))
             # 보증금
-            self.tableWidget_db.setItem(rowCount - 1, 2, QTableWidgetItem(str(row[3])))
+            self.tableWidget_db.setItem(rowCount, 2, QTableWidgetItem(str(row[3])))
             # 월세
-            self.tableWidget_db.setItem(rowCount - 1, 3, QTableWidgetItem(str(row[4])))
+            self.tableWidget_db.setItem(rowCount, 3, QTableWidgetItem(str(row[4])))
             # 관리비
-            self.tableWidget_db.setItem(rowCount - 1, 4, QTableWidgetItem(str(row[5])))
+            self.tableWidget_db.setItem(rowCount, 4, QTableWidgetItem(str(row[5])))
             # 면적
-            self.tableWidget_db.setItem(rowCount - 1, 5, QTableWidgetItem(str(row[6])))
+            self.tableWidget_db.setItem(rowCount, 5, QTableWidgetItem(str(row[6])))
+            # 층
+            self.tableWidget_db.setItem(rowCount, 6, QTableWidgetItem(str(row[7])))
             # 방
-            self.tableWidget_db.setItem(rowCount - 1, 6, QTableWidgetItem(str(row[7])))
+            self.tableWidget_db.setItem(rowCount, 7, QTableWidgetItem(str(row[8])))
             # 화장실
-            self.tableWidget_db.setItem(rowCount - 1, 7, QTableWidgetItem(str(row[8])))
+            self.tableWidget_db.setItem(rowCount, 8, QTableWidgetItem(str(row[9])))
 
             print(str(i) + ": " + str(row))
 
     def renew_urlbar(self, qurl, browser):
         self.lineEdit_url.setText(qurl.toDisplayString())
 
-    def add_new_tab(self, qurl=QUrl('https://google.com'), label='labels'):
+    def AddNewTab(self, qurl=QUrl('https://google.com'), label='labels'):
         browser = QWebEngineView()
         self.webSettings = browser.settings()
         self.webSettings.setAttribute(QWebEngineSettings.PluginsEnabled, True)
