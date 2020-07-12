@@ -64,7 +64,6 @@ class MainWindow(QMainWindow, form_class):
 
     def ClickedWebSearchBtn(self):
         self.AddNewTab(QUrl(self.lineEdit_url.text()), 'Loading...')
-        # print(self.lineEdit_url.text())
 
     def ClickedSearchBtn(self):
         startDate = 0
@@ -141,9 +140,6 @@ class MainWindow(QMainWindow, form_class):
     def InitDB(self):
         self.CreateTable()
 
-        # for key in setHouseInfo.keys():
-        #     print(key)
-        #     pprint(setHouseInfo[key])
         for i in range(1, 5):
             html = requests.post(LH_URI + str(i), setHouseInfo["GUNJA"])
 
