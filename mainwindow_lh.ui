@@ -42,7 +42,7 @@
      <number>0</number>
     </property>
     <property name="columnCount">
-     <number>9</number>
+     <number>11</number>
     </property>
     <column>
      <property name="text">
@@ -87,6 +87,16 @@
     <column>
      <property name="text">
       <string>화장실</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>X</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Y</string>
      </property>
     </column>
    </widget>
@@ -307,7 +317,7 @@
      <x>0</x>
      <y>0</y>
      <width>1519</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>

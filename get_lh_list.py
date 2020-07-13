@@ -61,6 +61,7 @@ class MainWindow(QMainWindow, form_class):
         print("initDB Done")
         self.btn_search.clicked.connect(self.ClickedSearchBtn)
         self.btn_webSearch.clicked.connect(self.ClickedWebSearchBtn)
+        self.tableWidget_db.doubleClicked.connect(self.coordinateToURL)
 
     def ClickedWebSearchBtn(self):
         self.AddNewTab(QUrl(self.lineEdit_url.text()), 'Loading...')
@@ -176,7 +177,7 @@ class MainWindow(QMainWindow, form_class):
         cur = conn.cursor()
 
         cur.execute(
-            "SELECT rthousRgsde, rthousRdnmadr , rthousRdnmadrDetail, rthousGtn, rthousMtht, rthousManagect, rthousFloor, rthousExclAr, rthousRoomCo, rthousToiletCo FROM result ORDER BY rthousRgsde DESC"
+            "SELECT rthousRgsde, rthousRdnmadr , rthousRdnmadrDetail, rthousGtn, rthousMtht, rthousManagect, rthousFloor, rthousExclAr, rthousRoomCo, rthousToiletCo, rthousXcnts, rthousYdnts FROM result ORDER BY rthousRgsde DESC"
         )
         rows = cur.fetchall()
         for i, row in enumerate(rows):
@@ -208,13 +209,17 @@ class MainWindow(QMainWindow, form_class):
             self.tableWidget_db.setItem(rowCount, 7, QTableWidgetItem(str(row[8])))
             # 화장실
             self.tableWidget_db.setItem(rowCount, 8, QTableWidgetItem(str(row[9])))
+            # X
+            self.tableWidget_db.setItem(rowCount, 9, QTableWidgetItem(str(row[10])))
+            # Y
+            self.tableWidget_db.setItem(rowCount, 10, QTableWidgetItem(str(row[11])))
 
             print(str(i) + ": " + str(row))
 
     def renew_urlbar(self, qurl, browser):
         self.lineEdit_url.setText(qurl.toDisplayString())
 
-    def AddNewTab(self, qurl=QUrl('https://google.com'), label='labels'):
+    def AddNewTab(self, qurl=QUrl('https://map.google.com/'), label='labels'):
         browser = QWebEngineView()
         self.webSettings = browser.settings()
         self.webSettings.setAttribute(QWebEngineSettings.PluginsEnabled, True)
@@ -228,7 +233,10 @@ class MainWindow(QMainWindow, form_class):
 
         browser.loadFinished.connect(lambda _, i=i, browser=browser:
                                      self.tabWidget.setTabText(i, browser.page().title()))
-
+    def coordinateToURL(self):
+        row = self.tableWidget_db.currentRow()
+        X, Y = self.tableWidget_db.itemAt(row, 10), self.tableWidget_db.itemAt(row, 11)
+        print("dbl clicked: ", X, Y)
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
