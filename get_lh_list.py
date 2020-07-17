@@ -57,7 +57,7 @@ class MainWindow(QMainWindow, form_class):
         self.tabWidget.removeTab(1)
         self.tabWidget.removeTab(0)
 
-        self.addNewTab(QUrl('https://map.google.com'))
+        # self.addNewTab(QUrl('https://map.google.com'))
         print("initDB Done")
         self.btn_search.clicked.connect(self.ClickedSearchBtn)
         self.btn_webSearch.clicked.connect(self.ClickedWebSearchBtn)
