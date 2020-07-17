@@ -57,14 +57,14 @@ class MainWindow(QMainWindow, form_class):
         self.tabWidget.removeTab(1)
         self.tabWidget.removeTab(0)
 
-        self.AddNewTab()
+        self.addNewTab(QUrl('https://map.google.com'))
         print("initDB Done")
         self.btn_search.clicked.connect(self.ClickedSearchBtn)
         self.btn_webSearch.clicked.connect(self.ClickedWebSearchBtn)
         self.tableWidget_db.doubleClicked.connect(self.coordinateToURL)
 
     def ClickedWebSearchBtn(self):
-        self.AddNewTab(QUrl(self.lineEdit_url.text()), 'Loading...')
+        self.addNewTab(QUrl(self.lineEdit_url.text()), 'Loading...')
 
     def ClickedSearchBtn(self):
         startDate = 0
@@ -142,7 +142,7 @@ class MainWindow(QMainWindow, form_class):
         self.CreateTable()
 
         for i in range(1, 5):
-            html = requests.post(LH_URI + str(i), setHouseInfo["GUNJA"])
+            html = requests.post(LH_URI + str(i), setHouseInfo["SADANG"])
 
             try:
                 json_data = html.json()
@@ -219,7 +219,7 @@ class MainWindow(QMainWindow, form_class):
     def renew_urlbar(self, qurl, browser):
         self.lineEdit_url.setText(qurl.toDisplayString())
 
-    def AddNewTab(self, qurl=QUrl('https://map.google.com/'), label='labels'):
+    def addNewTab(self, qurl, label='labels'):
         browser = QWebEngineView()
         self.webSettings = browser.settings()
         self.webSettings.setAttribute(QWebEngineSettings.PluginsEnabled, True)
@@ -233,10 +233,16 @@ class MainWindow(QMainWindow, form_class):
 
         browser.loadFinished.connect(lambda _, i=i, browser=browser:
                                      self.tabWidget.setTabText(i, browser.page().title()))
+
     def coordinateToURL(self):
-        row = self.tableWidget_db.currentRow()
-        X, Y = self.tableWidget_db.itemAt(row, 10), self.tableWidget_db.itemAt(row, 11)
-        print("dbl clicked: ", X, Y)
+        x, y = self.tableWidget_db.item(self.tableWidget_db.currentRow(), 9).text(), self.tableWidget_db.item(
+            self.tableWidget_db.currentRow(), 10).text()
+        print(x, y)
+        location_url = QUrl('https://www.google.com/maps/@%s,%s,17z' % (y, x))
+        self.addNewTab(location_url)
+
+
+#
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
