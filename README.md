@@ -11,6 +11,10 @@ https://jeonse.lh.or.kr/jw/rs/search/selectRthousList.do?mi=2871#wrap
 3. 옆에 지도 넣기
     - 지도 top_left, bottom_right 좌표로 row 더블클릭시 위치 표시 or 5번
 4. 가져온 데이터에 해당하는 LH링크 연결해주기
-5. table row dblClick시 Widget 팝업으로 정보 
+5. table row dblClick시 Widget 팝업으로 정보 보여주기
+
 pip install requests, pyqt5
 pip install PyQtWebEngine
+
+
+
