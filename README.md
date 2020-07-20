@@ -18,11 +18,8 @@ https://jeonse.lh.or.kr/jw/rs/search/selectRthousList.do?mi=2871#wrap
     - 직방은 20/01/29 이후 리뉴얼로 인해 이 전 코드들 참고하기 어려움
 
 
-pip install requests, pyqt5, 
-pip install PyQtWebEngine
+pip install requests, pyqt5, PyQtWebEngine, geohash2
 
 
 
-
-
-
+EOF
