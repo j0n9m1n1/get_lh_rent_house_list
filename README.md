@@ -12,8 +12,8 @@ https://jeonse.lh.or.kr/jw/rs/search/selectRthousList.do?mi=2871#wrap
     - 지도 top_left, bottom_right 좌표로 row 더블클릭시 위치 표시 or 5번
 4. 가져온 데이터에 해당하는 LH링크 연결해주기
 5. table row dblClick시 Widget 팝업으로 정보 보여주기
-6. 메뉴를 통해 특정 영역 지정하기(현재는 내가 쓰려고 광진, 송파, 사당쪽만 넣어둠ㅎ)
-
+6. 메뉴를 통해 특정 영역 지정하기(현재는 내가 쓰려고 광진, 송파, 사당쪽만 넣어둠)
+7. 직방, 다방 탭으로 추가하기()
 
 
 pip install requests, pyqt5
