@@ -14,92 +14,6 @@
    <string/>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QTableWidget" name="tableWidget_db">
-    <property name="enabled">
-     <bool>true</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>40</y>
-      <width>771</width>
-      <height>1001</height>
-     </rect>
-    </property>
-    <property name="sizeAdjustPolicy">
-     <enum>QAbstractScrollArea::AdjustToContentsOnFirstShow</enum>
-    </property>
-    <property name="dragDropOverwriteMode">
-     <bool>false</bool>
-    </property>
-    <property name="selectionBehavior">
-     <enum>QAbstractItemView::SelectRows</enum>
-    </property>
-    <property name="sortingEnabled">
-     <bool>true</bool>
-    </property>
-    <property name="rowCount">
-     <number>0</number>
-    </property>
-    <property name="columnCount">
-     <number>11</number>
-    </property>
-    <column>
-     <property name="text">
-      <string>등록일</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>주소</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>보증금</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>월세</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>관리비</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>층</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>면적</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>방</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>화장실</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>X</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>Y</string>
-     </property>
-    </column>
-   </widget>
    <widget class="QPushButton" name="btn_search">
     <property name="geometry">
      <rect>
@@ -270,6 +184,140 @@
       <string>SADANG</string>
      </property>
     </item>
+   </widget>
+   <widget class="QTabWidget" name="tabWidget_providers">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>40</y>
+      <width>791</width>
+      <height>1001</height>
+     </rect>
+    </property>
+    <property name="currentIndex">
+     <number>0</number>
+    </property>
+    <widget class="QWidget" name="LH">
+     <attribute name="title">
+      <string>LH</string>
+     </attribute>
+     <widget class="QTableWidget" name="tableWidget_LH">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>781</width>
+        <height>971</height>
+       </rect>
+      </property>
+      <property name="sizeAdjustPolicy">
+       <enum>QAbstractScrollArea::AdjustToContentsOnFirstShow</enum>
+      </property>
+      <property name="dragDropOverwriteMode">
+       <bool>false</bool>
+      </property>
+      <property name="selectionBehavior">
+       <enum>QAbstractItemView::SelectRows</enum>
+      </property>
+      <property name="sortingEnabled">
+       <bool>true</bool>
+      </property>
+      <property name="rowCount">
+       <number>0</number>
+      </property>
+      <property name="columnCount">
+       <number>11</number>
+      </property>
+      <column>
+       <property name="text">
+        <string>등록일</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>주소</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>보증금</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>월세</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>관리비</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>층</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>면적</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>방</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>화장실</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>X</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Y</string>
+       </property>
+      </column>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="ZB">
+     <attribute name="title">
+      <string>ZB</string>
+     </attribute>
+     <widget class="QTableWidget" name="tableWidget_ZB">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>781</width>
+        <height>971</height>
+       </rect>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="DB">
+     <attribute name="title">
+      <string>DB</string>
+     </attribute>
+     <widget class="QTableWidget" name="tableWidget_DB">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>781</width>
+        <height>971</height>
+       </rect>
+      </property>
+     </widget>
+    </widget>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">

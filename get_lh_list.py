@@ -13,7 +13,7 @@ from PyQt5.QtGui import *
 
 LH_URI = r"https://jeonse.lh.or.kr/jw/rs/search/reSearchRthousList.do?currPage="
 
-setHouseInfo = {
+setHouseLHInfo = {
     "GUNJA": {
         "mi": "2872",
         "rthousBdtyp": "9",
@@ -53,7 +53,7 @@ class MainWindow(QMainWindow, form_class):
 
         self.InitDB()
         # self.SelectForTable()
-        self.tableWidget_db.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        self.tableWidget_LH.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.tabWidget.removeTab(1)
         self.tabWidget.removeTab(0)
 
@@ -61,18 +61,27 @@ class MainWindow(QMainWindow, form_class):
         print("initDB Done")
         self.btn_search.clicked.connect(self.ClickedSearchBtn)
         self.btn_webSearch.clicked.connect(self.ClickedWebSearchBtn)
-        self.tableWidget_db.doubleClicked.connect(self.coordinateToURL)
+        self.tableWidget_LH.doubleClicked.connect(self.coordinateToURL)
 
     def ClickedWebSearchBtn(self):
-        self.addNewTab(QUrl(self.lineEdit_url.text()), 'Loading...')
+        self.AddNewWebTab(QUrl(self.lineEdit_url.text()), 'Loading...')
 
     def ClickedSearchBtn(self):
         startDate = 0
         endDate = 0
         grtMoney = 0
-        self.SelectForTable()
+        tab_idx = self.tabWidget_providers.currentIndex()
+        if tab_idx == 0:
+            # LH
+            self.SetItemsLH()
+        elif tab_idx == 1:
+            # DB
+            pass
+        elif tab_idx == 2:
+            # ZB
+            pass
 
-    def CreateTable(self):
+    def CreateTableLH(self):
         conn = self.conn
         try:
             conn.execute(
@@ -122,7 +131,13 @@ class MainWindow(QMainWindow, form_class):
         except sqlite3.OperationalError:
             print("테이블 있거나 에러~!")
 
-    def InsertData(self, fields, values):
+    def CreateTableZB(self):
+        pass
+
+    def CreateTableDB(self):
+        pass
+
+    def InsertDataLH(self, fields, values):
         conn = self.conn
         # pprint(str(values)[1:-1])
         try:
@@ -138,11 +153,17 @@ class MainWindow(QMainWindow, form_class):
         except sqlite3.IntegrityError:
             print("DUPLICATED OR ERROR")
 
+    def InsertDataZB(self):
+        pass
+
+    def InsertDataDB(self):
+        pass
+
     def InitDB(self):
-        self.CreateTable()
+        self.CreateTableLH()
 
         for i in range(1, 5):
-            html = requests.post(LH_URI + str(i), setHouseInfo["SADANG"])
+            html = requests.post(LH_URI + str(i), setHouseLHInfo["GUNJA"])
 
             try:
                 json_data = html.json()
@@ -170,9 +191,9 @@ class MainWindow(QMainWindow, form_class):
                         fields += key + ","
                         values.append(str(InsertFields[key]))
                 print(str(i) + ": ", end="")
-                self.InsertData(fields, values)
+                self.InsertDataLH(fields, values)
 
-    def SelectForTable(self):
+    def SetItemsLH(self):
         conn = self.conn
         cur = conn.cursor()
 
@@ -181,45 +202,45 @@ class MainWindow(QMainWindow, form_class):
         )
         rows = cur.fetchall()
         for i, row in enumerate(rows):
-            rowCount = self.tableWidget_db.rowCount()
-            self.tableWidget_db.setRowCount(rowCount + 1)
+            rowCount = self.tableWidget_LH.rowCount()
+            self.tableWidget_LH.setRowCount(rowCount + 1)
             # 등록일
-            self.tableWidget_db.setItem(rowCount, 0, QTableWidgetItem(str(row[0])))
+            self.tableWidget_LH.setItem(rowCount, 0, QTableWidgetItem(str(row[0])))
             # 주소(지번) + 상세주소(지번)
             if row[2] == None:
-                self.tableWidget_db.setItem(
+                self.tableWidget_LH.setItem(
                     rowCount, 1, QTableWidgetItem(str(row[1]))
                 )
             else:
-                self.tableWidget_db.setItem(
+                self.tableWidget_LH.setItem(
                     rowCount, 1, QTableWidgetItem(str(row[1]) + " " + str(row[2]))
                 )
                 # print(str(row[2]))
             # 보증금
-            self.tableWidget_db.setItem(rowCount, 2, QTableWidgetItem(str(row[3])))
+            self.tableWidget_LH.setItem(rowCount, 2, QTableWidgetItem(str(row[3])))
             # 월세
-            self.tableWidget_db.setItem(rowCount, 3, QTableWidgetItem(str(row[4])))
+            self.tableWidget_LH.setItem(rowCount, 3, QTableWidgetItem(str(row[4])))
             # 관리비
-            self.tableWidget_db.setItem(rowCount, 4, QTableWidgetItem(str(row[5])))
+            self.tableWidget_LH.setItem(rowCount, 4, QTableWidgetItem(str(row[5])))
             # 면적
-            self.tableWidget_db.setItem(rowCount, 5, QTableWidgetItem(str(row[6])))
+            self.tableWidget_LH.setItem(rowCount, 5, QTableWidgetItem(str(row[6])))
             # 층
-            self.tableWidget_db.setItem(rowCount, 6, QTableWidgetItem(str(row[7])))
+            self.tableWidget_LH.setItem(rowCount, 6, QTableWidgetItem(str(row[7])))
             # 방
-            self.tableWidget_db.setItem(rowCount, 7, QTableWidgetItem(str(row[8])))
+            self.tableWidget_LH.setItem(rowCount, 7, QTableWidgetItem(str(row[8])))
             # 화장실
-            self.tableWidget_db.setItem(rowCount, 8, QTableWidgetItem(str(row[9])))
+            self.tableWidget_LH.setItem(rowCount, 8, QTableWidgetItem(str(row[9])))
             # X
-            self.tableWidget_db.setItem(rowCount, 9, QTableWidgetItem(str(row[10])))
+            self.tableWidget_LH.setItem(rowCount, 9, QTableWidgetItem(str(row[10])))
             # Y
-            self.tableWidget_db.setItem(rowCount, 10, QTableWidgetItem(str(row[11])))
+            self.tableWidget_LH.setItem(rowCount, 10, QTableWidgetItem(str(row[11])))
 
             print(str(i) + ": " + str(row))
 
-    def renew_urlbar(self, qurl, browser):
+    def RenewURLBar(self, qurl, browser):
         self.lineEdit_url.setText(qurl.toDisplayString())
 
-    def addNewTab(self, qurl, label='labels'):
+    def AddNewWebTab(self, qurl, label='labels'):
         browser = QWebEngineView()
         self.webSettings = browser.settings()
         self.webSettings.setAttribute(QWebEngineSettings.PluginsEnabled, True)
@@ -229,20 +250,18 @@ class MainWindow(QMainWindow, form_class):
 
         self.tabWidget.setCurrentIndex(i)
 
-        browser.urlChanged.connect(lambda qurl, browser=browser: self.renew_urlbar(qurl, browser))
+        browser.urlChanged.connect(lambda qurl, browser=browser: self.RenewURLBar(qurl, browser))
 
         browser.loadFinished.connect(lambda _, i=i, browser=browser:
                                      self.tabWidget.setTabText(i, browser.page().title()))
 
     def coordinateToURL(self):
-        x, y = self.tableWidget_db.item(self.tableWidget_db.currentRow(), 9).text(), self.tableWidget_db.item(
-            self.tableWidget_db.currentRow(), 10).text()
+        x, y = self.tableWidget_LH.item(self.tableWidget_LH.currentRow(), 9).text(), self.tableWidget_LH.item(
+            self.tableWidget_LH.currentRow(), 10).text()
         print(x, y)
         location_url = QUrl('https://www.google.com/maps/@%s,%s,17z' % (y, x))
-        self.addNewTab(location_url)
+        self.AddNewWebTab(location_url)
 
-
-#
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
