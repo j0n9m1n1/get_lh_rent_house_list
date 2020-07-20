@@ -7,6 +7,7 @@ https://jeonse.lh.or.kr/jw/rs/search/selectRthousList.do?mi=2871#wrap
 전세임대 포털의 설정한 지도 영역만큼의 매물 가져오기
 
 1. 검색 필드 만들기(등록일, 금액, 관리비)
+    - 쿼리 적용 하기
 2. 체크박스로 관리비 5만원 이상인 data 색 강조하기
 3. 옆에 지도 넣기
     - 지도 top_left, bottom_right 좌표로 row 더블클릭시 위치 표시 or 5번
@@ -16,7 +17,7 @@ https://jeonse.lh.or.kr/jw/rs/search/selectRthousList.do?mi=2871#wrap
 7. 직방, 다방 탭으로 추가하기()
 
 
-pip install requests, pyqt5
+pip install requests, pyqt5, 
 pip install PyQtWebEngine
 
 
