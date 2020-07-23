@@ -4,14 +4,12 @@ from datetime import datetime
 import requests
 import json
 import sys
-
+import geohash2
 from PyQt5.QtWebEngineWidgets import QWebEngineView, QWebEngineSettings
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
-
-LH_URI = r"https://jeonse.lh.or.kr/jw/rs/search/reSearchRthousList.do?currPage="
 
 setHouseLHInfo = {
     "GUNJA": {
@@ -40,7 +38,12 @@ setHouseLHInfo = {
         "rthousGtnTo": "13000",
     }
 }
+setHouseZBInfo = {
+    "keyword": "아차산"
+}
 
+LH_URL = r"https://jeonse.lh.or.kr/jw/rs/search/reSearchRthousList.do?currPage="
+ZB_URL = "https://apis.zigbang.com/search?q={}".format(setHouseZBInfo["keyword"])
 form_class = uic.loadUiType("mainwindow_lh.ui")[0]
 
 
@@ -50,7 +53,7 @@ class MainWindow(QMainWindow, form_class):
         self.setupUi(self)
 
         self.conn = sqlite3.connect("LH.db")
-
+        # LH Data Table 생성
         self.InitDB()
         # self.SelectForTable()
         self.tableWidget_LH.setEditTriggers(QAbstractItemView.NoEditTriggers)
@@ -163,7 +166,7 @@ class MainWindow(QMainWindow, form_class):
         self.CreateTableLH()
 
         for i in range(1, 5):
-            html = requests.post(LH_URI + str(i), setHouseLHInfo["GUNJA"])
+            html = requests.post(LH_URL + str(i), setHouseLHInfo["GUNJA"])
 
             try:
                 json_data = html.json()
@@ -259,7 +262,7 @@ class MainWindow(QMainWindow, form_class):
         x, y = self.tableWidget_LH.item(self.tableWidget_LH.currentRow(), 9).text(), self.tableWidget_LH.item(
             self.tableWidget_LH.currentRow(), 10).text()
         print(x, y)
-        location_url = QUrl('https://www.google.com/maps/@%s,%s,17z' % (y, x))
+        location_url = QUrl('https://www.google.com/maps/search/%s,%s' % (y, x))
         self.AddNewWebTab(location_url)
 
 
