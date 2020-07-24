@@ -20,7 +20,7 @@ class MainWindow(QMainWindow, form_class):
         super().__init__()
         self.setupUi(self)
 
-        self.AddNewWebTab(QUrl('https://naver.com'))
+        self.AddNewWebTab(QUrl('http://localhost:8080/get_lh_rent_house_list/test_html.html'))
 
     def ClickedWebSearchBtn(self):
         self.AddNewWebTab(QUrl(self.lineEdit_url.text()), 'Loading...')
@@ -28,15 +28,12 @@ class MainWindow(QMainWindow, form_class):
     def RenewURLBar(self, qurl, browser):
         # self.lineEdit_url.setText(qurl.toDisplayString())
         pass
-
     def AddNewWebTab(self, qurl, label='labels'):
-        html = open(r"test_html.html", 'r', encoding='UTF8').read()
         browser = QWebEngineView()
         self.webSettings = browser.settings()
         self.webSettings.setAttribute(QWebEngineSettings.PluginsEnabled, True)
         self.webSettings.setAttribute(QWebEngineSettings.JavascriptEnabled, True)
-        browser.setHtml(html)
-        # browser.setUrl(qurl)
+        browser.setUrl(qurl)
 
         i = self.tabWidget.addTab(browser, label)
 

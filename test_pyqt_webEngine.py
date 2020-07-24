@@ -22,7 +22,6 @@ class MainWindow(QMainWindow, form_class):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
-        # self.QWebEngineView.load(QUrl("https://google.com"))
         self.add_new_tab()
         self.tabs = QWidget()
 

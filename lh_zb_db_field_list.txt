@@ -1,4 +1,4 @@
-def InitDict():
+LH
     Dict_Fields = {
     'brkrNm' : '',              #부동산이름
     'brkrgComments': '',        #부동산소개
@@ -42,3 +42,35 @@ def InitDict():
     }
 
     return Dict_Fields
+
+    ZB
+address': '광진구 자양동',
+  'address1': '서울시 광진구 자양동',
+  'address2': None,
+  'address3': None,
+  'building_floor': '5',
+  'deposit': 1000,
+  'floor': '3',
+  'floor_string': '3',
+  'images_thumbnail': 'https://ic.zigbang.com/ic/items/22915568/1.jpg',
+  'is_first_movein': None,
+  'is_new': False,
+  'is_zzim': False,
+  'item_id': 22915568,
+  'manage_cost': '2.5',
+  'random_location': {'lat': 37.53293624151969, 'lng': 127.0845230833553},
+  'reg_date': '2020-07-11T20:04:38+09:00',
+  'rent': 60,
+  'room_type': '02',
+  'room_type_title': None,
+  'sales_title': '월세',
+  'sales_type': '월세',
+  'section_type': None,
+  'service_type': '원룸',
+  'size_m2': 28.1,
+  'status': True,
+  'tags': [],
+  'title': '☎즉시입주.구의역7분.주차가능.채광Good☎',
+  '계약면적': None,
+  '공급면적': {'m2': 28.1, 'p': '8.5'},
+  '전용면적': {'m2': 28.1, 'p': '8.5'}}

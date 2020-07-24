@@ -60,7 +60,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="LH">
      <attribute name="title">
@@ -223,7 +223,7 @@
        </property>
       </item>
      </widget>
-     <widget class="QComboBox" name="cb_grtMoney">
+     <widget class="QComboBox" name="cbBox_grtMoney">
       <property name="geometry">
        <rect>
         <x>6</x>
@@ -308,6 +308,19 @@
       </property>
       <property name="text">
        <string>Search</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_ZB">
+      <property name="geometry">
+       <rect>
+        <x>580</x>
+        <y>10</y>
+        <width>113</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>아차산</string>
       </property>
      </widget>
     </widget>

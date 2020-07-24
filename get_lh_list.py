@@ -1,3 +1,4 @@
+import time
 from pprint import pprint
 import sqlite3
 from datetime import datetime
@@ -60,9 +61,11 @@ class MainWindow(QMainWindow, form_class):
         self.setupUi(self)
         self.conn = sqlite3.connect("rooms.db")
         # LH Data Table 생성
-        self.InitDB()
+        self.CreateTableLH()
+        self.CreateTableZB()
+        self.InitLHDB()
+
         self.tableWidget_LH.setEditTriggers(QAbstractItemView.NoEditTriggers)
-        print("initDB Done")
         self.btn_search_LH.clicked.connect(self.ClickedSearchBtnLH)
         self.btn_search_ZB.clicked.connect(self.ClickedSearchBtnZB)
         self.btn_webSearch.clicked.connect(self.ClickedWebSearchBtn)
@@ -75,98 +78,14 @@ class MainWindow(QMainWindow, form_class):
         endDate = 0
         grtMoney = 0
         '''
+        print(self.cbBox_Location.currentText())
+        self.InitLHDB()
         while (self.tableWidget_LH.rowCount() > 0):
             self.tableWidget_LH.removeRow(0)
         self.SetItemsLH()
 
     def ClickedSearchBtnZB(self):
-        keyword = "아차산"
-
-        # 최초 검색어에 해당하는 검색어값의 자동완성 ajax 주소 입니다.
-        # 예를 들어 사이트에서 대치동을 입력하면 대치동, 르엘대치(아파트), 대치동더블유타워(오피스텔)... 등의
-        # 검색 결과목록이 나오는데 이 값을 구해오는 주소 입니다.
-        url = "https://apis.zigbang.com/search?q={}".format(keyword)
-
-        req = requests.get(url)
-
-        # 실제 api 주소에서 json 형태로 리턴되기 때문에 json 형태로 값을 받습니다.
-        # json 형태로 받은 값은 사용하기도 편리합니다.
-        _json = req.json()
-
-        # api 상태코드가 200인 경우가 오류없이 동작되었다는 의미입니다.
-        if _json.get("code") == "200":
-            # 위에서 말한대로 검색어에 해당하는 자동완성값은 여러개인데
-            # 그중에 맨 위에 [0] 번째 한가지에 대해서만 검색을 합니다.
-            data = _json.get("items")[0]
-            _description = data.get("description")
-            _id = data.get("id")
-            _lat = data.get("lat")
-            _lng = data.get("lng")
-            _zoom = data.get("zoom")
-
-            # 기존코드와 현재 변경된 직방 페이지에서 가장 중요하게 변경된 점은
-            # 기존에는 lat, lng 값을 구해서 임의로 적정 영역을 +, - 해서
-            # 지도의 사각형 영역을 구한다음에 그 영역에 대한 쿼리를 요청했었는데
-            # 변경된 직방 사이트는 Geohash 를 사용하도록 변경되었습니다.
-            # Geohash 에 대한 정보는 https://en.wikipedia.org/wiki/Geohash 를 참고하시기 바랍니다.
-            # 맨위에 설명한데로 파이썬 geohash2 라이브러를 먼저 설치해야 합니다.
-            # precision 정밀도를 5로 설정해야만 직방에서 사용하는 geohash 와 일치하는듯 보입니다.
-            geohash = geohash2.encode(_lat, _lng, precision=5)
-
-            # 위에서 구한 geohash 값을 아래의 api 로 호출하고 쿼리(전세 월세 등)를 넘겨주는 주소 입니다.
-            url = "https://apis.zigbang.com/v2/items?deposit_gteq=0&domain=zigbang&geohash={}&rent_gteq=0&sales_type_in=전세%7C월세&service_type_eq=원룸".format(
-                geohash)
-
-            # 역시 json 형태로 값을 취합니다.
-            _req_items = requests.get(url).json()
-
-            # json 데이터에서 items 값만 저장합니다.
-            # items 값은 실제 매물 데이터의 인덱스 값입니다.
-            _items = _req_items.get("items")
-
-            # 위에서 취한 json 형태의 items 목록을
-            # 파이썬 리스트 형태로 저장합니다.
-            item_ids = []
-            for item in _items:
-                item_ids.append(item.get("item_id"))
-
-            # 위에서 저장한 list 의 100개만
-            # items_ids 라는 키의 값으로 설정합니다.
-            # 최종적으로 이 값을 직방 api 에 요청합니다.
-            items = {"item_ids": item_ids[:100]}
-
-            # 위에서 만든 items_ids: [매물인덱스] 를 아래 주소로 쿼리 한 후 json 형태로 받습니다.
-            _results = requests.post('https://apis.zigbang.com/v2/items/list', data=items).json()
-
-            # 최종 완성된 매물 결과는 items 안에 있습니다.
-            datas = _results.get("items")
-
-            # 매물 목록을 돌며 화면에 출력합니다.
-            for d in datas:
-                _address = "{} {}".format(d.get("address1"), d.get("address2"))
-                if d.get("address3") is not None:
-                    _address += " {}".format(d.get("address3"))
-
-                building_floor = d.get("building_floor")
-                floor = d.get("floor")
-                thumbnail = d.get("images_thumbnail")
-                item_id = d.get("item_id")
-                reg_date = d.get("reg_date")
-                sales_type = d.get("sales_type")
-                service_type = d.get("service_type")
-                size_m2 = d.get("size_m2")
-                title = d.get("title")
-                deposit = d.get("deposit")
-                rent = d.get("rent")
-
-                # pprint.pprint(d)
-                print("*" * 100)
-                print("{} [{}]".format(title, item_id))
-                print("보증금/월세: {}/{}".format(deposit, rent))
-                print("건물층/매물층: {}/{}".format(building_floor, floor))
-                print("등록일자: {}".format(reg_date))
-                print("서비스형태/매물형태: {}/{}".format(service_type, sales_type))
-                print("사이즈: {}".format(size_m2))
+        self.InitZBDB()
 
     def CreateTableLH(self):
         conn = self.conn
@@ -216,10 +135,53 @@ class MainWindow(QMainWindow, form_class):
             """
             )
         except sqlite3.OperationalError:
-            print("테이블 있거나 에러~!")
+            print("LH: 테이블 있거나 에러~!", end='')
+            print(sqlite3.OperationalError)
 
     def CreateTableZB(self):
-        pass
+        conn = self.conn
+        try:
+            conn.execute(
+                """CREATE TABLE ZB(
+                search_keyword text,
+                address1 text,
+                address2 text,
+                address3 text,
+                building_floor text,
+                deposit text,
+                floor text,
+                floor_string text,
+                images_thumbnail text,
+                is_first_movein text,
+                is_new text,
+                is_zzim text,
+                item_id text PRIMARY KEY,
+                manage_cost text,
+                random_location_lat text,
+                random_location_lng text,
+                reg_date text,
+                rent text,
+                room_type text,
+                room_type_title text,
+                sales_title text,
+                sales_type text,
+                section_type text,
+                service_type text,
+                size_m2 text,
+                status text,
+                tags text,
+                title text,
+                contract_size_m2 text,
+                contract_size_p text,
+                supply_size_m2 text,
+                supply_size_p text,
+                own_size_m2 text,
+                own_size_p text,
+                detail_desc text)
+                """)
+        except sqlite3.OperationalError:
+            print("ZB: 테이블 있거나 에러~!",end='')
+            print(sqlite3.OperationalError)
 
     def CreateTableDB(self):
         pass
@@ -235,22 +197,34 @@ class MainWindow(QMainWindow, form_class):
                 + str(values)[1:-1]
                 + ")"
             )
-            print("INSERT DONE")
+            print("LH: INSERT DONE")
             conn.commit()
         except sqlite3.IntegrityError:
-            print("DUPLICATED OR ERROR")
+            print("LH: DUPLICATED OR ERROR")
 
-    def InsertDataZB(self):
-        pass
+    def InsertDataZB(self, fields, values):
+        conn = self.conn
+        print(str(values)[1:-1])
+        # try:
+        #     conn.execute(
+        #         "INSERT INTO ZB("
+        #         + fields[:-1]
+        #         + ")VALUES("
+        #         + str(values[1:-1])
+        #         + ")"
+        #     )
+        #     print("ZB: INSERT DONE")
+        #     conn.commit()
+        # except sqlite3.IntegrityError:
+        #     print("ZB: DUPLICATED OR ERROR")
+
 
     def InsertDataDB(self):
         pass
 
-    def InitDB(self):
-        self.CreateTableLH()
-
+    def InitLHDB(self):
         for i in range(1, 5):
-            html = requests.post(LH_URL + str(i), setHouseLHInfo["GUNJA"])
+            html = requests.post(LH_URL + str(i), setHouseLHInfo[self.cbBox_Location.currentText()])
 
             try:
                 json_data = html.json()
@@ -260,26 +234,99 @@ class MainWindow(QMainWindow, form_class):
                 break
 
             for detail in json_data["rthousList"]:
-                InsertFields = dict()
+                insert_fields = dict()
                 fields = str()
                 values = list()
 
                 for key in detail.keys():
-                    InsertFields[key] = detail[key]
+                    insert_fields[key] = detail[key]
 
                     if key == "rthousRgsde":
-                        dttm = datetime.strptime(
-                            InsertFields[key], "%b %d, %Y %I:%M:%S %p"
+                        _dttm = datetime.strptime(
+                            insert_fields[key], "%b %d, %Y %I:%M:%S %p"
                         )
                         fields += key + ","
-                        values.append(str(dttm))
+                        values.append(str(_dttm))
 
                     else:
                         fields += key + ","
-                        values.append(str(InsertFields[key]))
-                print(str(i) + ": ", end="")
+                        values.append(str(insert_fields[key]))
+                # print(str(i) + ": ", end="")
                 self.InsertDataLH(fields, values)
 
+    def InitZBDB(self):
+        keyword = self.lineEdit_ZB.text()
+        url = "https://apis.zigbang.com/search?q={}".format(keyword)
+        req = requests.get(url)
+        _json = req.json()
+        if _json.get("code") == "200":
+            data = _json.get("items")[0]
+            # pprint(data)
+            _description = data.get("description")
+            _id = data.get("id")
+            _lat = data.get("lat")
+            _lng = data.get("lng")
+            _zoom = data.get("zoom")
+
+            geohash = geohash2.encode(_lat, _lng, precision=5)
+            # 여기까지는 키워드의 itemid, 좌표 구하는거
+
+            url = "https://apis.zigbang.com/v2/items?deposit_gteq=0&domain=zigbang&geohash={}&rent_gteq=0&sales_type_in=전세%7C월세&service_type_eq=원룸".format(
+                geohash)
+            _req_items = requests.get(url).json()
+            _items = _req_items.get("items")
+
+            item_ids = []
+            for item in _items:
+                item_ids.append(item.get("item_id"))
+            #갯수 조정
+            items = {"item_ids": item_ids[:100]}
+            _results = requests.post('https://apis.zigbang.com/v2/items/list', data=items).json()
+            _datas = _results.get("items")
+
+            for dict in _datas:
+                fields, values = list(), list()
+                for dict_key in dict.keys():
+                    if dict[dict_key] is not None:
+                        if dict_key == "계약면적":
+                            fields.append("contract_size_m2")
+                            values.append(str(dict[dict_key]["m2"]))
+                            fields.append("contract_size_p")
+                            values.append(str(dict[dict_key]["p"]))
+
+                        elif dict_key == "공급면적":
+                            fields.append("supply_size_m2")
+                            values.append(str(dict[dict_key]["m2"]))
+                            fields.append("supply_size_p")
+                            values.append(str(dict[dict_key]["p"]))
+
+                        elif dict_key == "전용면적":
+                            fields.append("own_size_m2")
+                            values.append(str(dict[dict_key]["m2"]))
+                            fields.append("own_size_p")
+                            values.append(str(dict[dict_key]["p"]))
+
+                        elif dict_key == "random_location":
+                            fields.append("random_location_lat")
+                            values.append(str(dict[dict_key]["lat"]))
+                            fields.append("random_location_lng")
+                            values.append(str(dict[dict_key]["lng"]))
+                        else:
+                            fields.append(dict_key)
+                            values.append(str(dict[dict_key]))
+
+                    else:
+                        if dict_key == "계약면적":
+                            fields.append("contract_size_m2")
+                            values.append("-1")
+
+                            fields.append("contract_size_p")
+                            values.append("-1")
+                        else:
+                            fields.append(dict_key)
+                            values.append("-1")
+                    print(dict_key, values)
+                self.InsertDataZB(fields, values)
     def SetItemsLH(self):
         conn = self.conn
         cur = conn.cursor()
