@@ -69,7 +69,7 @@ class MainWindow(QMainWindow, form_class):
         self.btn_search_LH.clicked.connect(self.ClickedSearchBtnLH)
         self.btn_search_ZB.clicked.connect(self.ClickedSearchBtnZB)
         self.btn_webSearch.clicked.connect(self.ClickedWebSearchBtn)
-        self.tableWidget_LH.doubleClicked.connect(self.dblClickedTableRow)
+        self.tableWidget_LH.doubleClicked.connect(self.dblClickedTableRowLH)
 
     def ClickedSearchBtnLH(self):
         '''
@@ -86,6 +86,7 @@ class MainWindow(QMainWindow, form_class):
 
     def ClickedSearchBtnZB(self):
         self.InitZBDB()
+        self.SetItemsZB()
 
     def CreateTableLH(self):
         conn = self.conn
@@ -144,6 +145,7 @@ class MainWindow(QMainWindow, form_class):
             conn.execute(
                 """CREATE TABLE ZB(
                 search_keyword text,
+                address text,
                 address1 text,
                 address2 text,
                 address3 text,
@@ -180,7 +182,7 @@ class MainWindow(QMainWindow, form_class):
                 detail_desc text)
                 """)
         except sqlite3.OperationalError:
-            print("ZB: 테이블 있거나 에러~!",end='')
+            print("ZB: 테이블 있거나 에러~!", end='')
             print(sqlite3.OperationalError)
 
     def CreateTableDB(self):
@@ -204,20 +206,21 @@ class MainWindow(QMainWindow, form_class):
 
     def InsertDataZB(self, fields, values):
         conn = self.conn
+        # print(str(values)[1:-1])
+        print(str(fields)[1:-1])
         print(str(values)[1:-1])
-        # try:
-        #     conn.execute(
-        #         "INSERT INTO ZB("
-        #         + fields[:-1]
-        #         + ")VALUES("
-        #         + str(values[1:-1])
-        #         + ")"
-        #     )
-        #     print("ZB: INSERT DONE")
-        #     conn.commit()
-        # except sqlite3.IntegrityError:
-        #     print("ZB: DUPLICATED OR ERROR")
-
+        try:
+            conn.execute(
+                "INSERT INTO ZB("
+                + str(fields)[1:-1]
+                + ")VALUES("
+                + str(values)[1:-1]
+                + ")"
+            )
+            print("ZB: INSERT DONE")
+            conn.commit()
+        except sqlite3.IntegrityError:
+            print("ZB: DUPLICATED OR ERROR")
 
     def InsertDataDB(self):
         pass
@@ -279,7 +282,7 @@ class MainWindow(QMainWindow, form_class):
             item_ids = []
             for item in _items:
                 item_ids.append(item.get("item_id"))
-            #갯수 조정
+            # 갯수 조정
             items = {"item_ids": item_ids[:100]}
             _results = requests.post('https://apis.zigbang.com/v2/items/list', data=items).json()
             _datas = _results.get("items")
@@ -325,8 +328,9 @@ class MainWindow(QMainWindow, form_class):
                         else:
                             fields.append(dict_key)
                             values.append("-1")
-                    print(dict_key, values)
+                    # print(dict_key, values)
                 self.InsertDataZB(fields, values)
+
     def SetItemsLH(self):
         conn = self.conn
         cur = conn.cursor()
@@ -373,47 +377,84 @@ class MainWindow(QMainWindow, form_class):
 
             print(str(i) + ": " + str(row))
 
+    def SetItemsZB(self):
+
+        conn = self.conn
+        cur = conn.cursor()
+
+        cur.execute(
+            "SELECT reg_date, address, address1, address2, address3, deposit, rent, manage_cost, floor, building_floor, size_m2, random_location_lng, random_location_lat, item_id FROM ZB ORDER BY reg_date DESC"
+        )
+        rows = cur.fetchall()
+        for i, row in enumerate(rows):
+            print(i, " ", row)
+            rowCount = self.tableWidget_ZB.rowCount()
+            self.tableWidget_ZB.setRowCount(rowCount + 1)
+            # 등록일
+            self.tableWidget_ZB.setItem(rowCount, 0, QTableWidgetItem(str(row[0])))
+            # 주소(지번) + 상세주소(지번)
+            if row[2] == None:
+                self.tableWidget_ZB.setItem(
+                    rowCount, 1, QTableWidgetItem(str(row[1]))
+                )
+            else:
+                self.tableWidget_ZB.setItem(
+                    rowCount, 1, QTableWidgetItem(str(row[1]) + " " + str(row[2]))
+                )
+                # print(str(row[2]))
+            # 보증금
+            self.tableWidget_ZB.setItem(rowCount, 2, QTableWidgetItem(str(row[3])))
+            # 월세
+            self.tableWidget_ZB.setItem(rowCount, 3, QTableWidgetItem(str(row[4])))
+            # 관리비
+            self.tableWidget_ZB.setItem(rowCount, 4, QTableWidgetItem(str(row[5])))
+            # 면적
+            self.tableWidget_ZB.setItem(rowCount, 5, QTableWidgetItem(str(row[6])))
+            # 층
+            self.tableWidget_ZB.setItem(rowCount, 6, QTableWidgetItem(str(row[7])))
+            # X
+            self.tableWidget_ZB.setItem(rowCount, 7, QTableWidgetItem(str(row[8])))
+            # Y
+            self.tableWidget_ZB.setItem(rowCount, 8, QTableWidgetItem(str(row[9])))
+            # ID
+            self.tableWidget_ZB.setItem(rowCount, 9, QTableWidgetItem(str(row[10])))
+
+            # print(str(i) + ": " + str(row))
+
     def ClickedWebSearchBtn(self):
         self.AddNewWebTab(QUrl(self.lineEdit_url.text()), 'Loading...')
 
     def RenewURLBar(self, qurl, browser):
+        #없어도 무방함
         self.lineEdit_url.setText(qurl.toDisplayString())
 
     def AddNewWebTab(self, qurl, label='labels'):
         browser = QWebEngineView()
-        self.webSettings = browser.settings()
-        self.webSettings.setAttribute(QWebEngineSettings.PluginsEnabled, True)
-        self.webSettings.setAttribute(QWebEngineSettings.JavascriptEnabled, True)
+        webSettings = browser.settings()
+        webSettings.setAttribute(QWebEngineSettings.PluginsEnabled, True)
+        webSettings.setAttribute(QWebEngineSettings.JavascriptEnabled, True)
         browser.setUrl(qurl)
-        if ('rthousId' in str(qurl)):
-            i = self.tabWidget_detail.addTab(browser, label)
 
-            self.tabWidget_detail.setCurrentIndex(i)
+        i = self.tabWidget_map.addTab(browser, label)
+        self.tabWidget_map.setCurrentIndex(i)
+        browser.urlChanged.connect(lambda qurl, browser=browser: self.RenewURLBar(qurl, browser))
+        browser.loadFinished.connect(lambda _, i=i, browser=browser:
+                                     self.tabWidget_map.setTabText(i, browser.page().title()))
 
-            browser.urlChanged.connect(lambda qurl, browser=browser: self.RenewURLBar(qurl, browser))
-
-            browser.loadFinished.connect(lambda _, i=i, browser=browser:
-                                         self.tabWidget_detail.setTabText(i, browser.page().title()))
-        else:
-            i = self.tabWidget_map.addTab(browser, label)
-
-            self.tabWidget_map.setCurrentIndex(i)
-
-            browser.urlChanged.connect(lambda qurl, browser=browser: self.RenewURLBar(qurl, browser))
-
-            browser.loadFinished.connect(lambda _, i=i, browser=browser:
-                                         self.tabWidget_map.setTabText(i, browser.page().title()))
-
-    def dblClickedTableRow(self):
+    def dblClickedTableRowLH(self):
         x, y = self.tableWidget_LH.item(self.tableWidget_LH.currentRow(), 9).text(), self.tableWidget_LH.item(
             self.tableWidget_LH.currentRow(), 10).text()
-        print(x, y)
+
         location_url = QUrl('https://www.google.com/maps/search/%s,%s' % (y, x))
         self.AddNewWebTab(location_url)
 
         detail_url = QUrl(LH_DETAIL + self.tableWidget_LH.item(
             self.tableWidget_LH.currentRow(), 11).text())
         self.AddNewWebTab(detail_url)
+
+    def dblClickedTableRowZB(self):
+        print("dblclickedZBTable")
+        pass
 
 
 if __name__ == "__main__":

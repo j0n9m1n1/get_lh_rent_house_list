@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>3335</width>
-    <height>1091</height>
+    <width>1859</width>
+    <height>1100</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,9 +18,9 @@
     <property name="geometry">
      <rect>
       <x>800</x>
-      <y>40</y>
-      <width>1261</width>
-      <height>1001</height>
+      <y>70</y>
+      <width>1051</width>
+      <height>971</height>
      </rect>
     </property>
     <property name="currentIndex">
@@ -30,8 +30,8 @@
    <widget class="QPushButton" name="btn_webSearch">
     <property name="geometry">
      <rect>
-      <x>1280</x>
-      <y>10</y>
+      <x>1290</x>
+      <y>30</y>
       <width>75</width>
       <height>23</height>
      </rect>
@@ -44,7 +44,7 @@
     <property name="geometry">
      <rect>
       <x>800</x>
-      <y>10</y>
+      <y>30</y>
       <width>481</width>
       <height>20</height>
      </rect>
@@ -60,7 +60,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="LH">
      <attribute name="title">
@@ -75,7 +75,7 @@
         <x>0</x>
         <y>30</y>
         <width>781</width>
-        <height>991</height>
+        <height>981</height>
        </rect>
       </property>
       <property name="sizeAdjustPolicy">
@@ -293,9 +293,59 @@
         <x>0</x>
         <y>50</y>
         <width>781</width>
-        <height>921</height>
+        <height>961</height>
        </rect>
       </property>
+      <column>
+       <property name="text">
+        <string>등록일</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>주소</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>보증금</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>월세</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>관리비</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>층</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>면적</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>X</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Y</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>ID</string>
+       </property>
+      </column>
      </widget>
      <widget class="QPushButton" name="btn_search_ZB">
       <property name="geometry">
@@ -340,27 +390,14 @@
      </widget>
     </widget>
    </widget>
-   <widget class="QTabWidget" name="tabWidget_detail">
-    <property name="geometry">
-     <rect>
-      <x>2070</x>
-      <y>40</y>
-      <width>1261</width>
-      <height>1001</height>
-     </rect>
-    </property>
-    <property name="currentIndex">
-     <number>-1</number>
-    </property>
-   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>3335</width>
-     <height>21</height>
+     <width>1859</width>
+     <height>22</height>
     </rect>
    </property>
   </widget>
