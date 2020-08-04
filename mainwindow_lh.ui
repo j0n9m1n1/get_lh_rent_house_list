@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>3335</width>
+    <width>1855</width>
     <height>1091</height>
    </rect>
   </property>
@@ -14,48 +14,12 @@
    <string/>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QTabWidget" name="tabWidget_map">
-    <property name="geometry">
-     <rect>
-      <x>800</x>
-      <y>40</y>
-      <width>1261</width>
-      <height>1001</height>
-     </rect>
-    </property>
-    <property name="currentIndex">
-     <number>-1</number>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="btn_webSearch">
-    <property name="geometry">
-     <rect>
-      <x>1280</x>
-      <y>10</y>
-      <width>75</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Search</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="lineEdit_url">
-    <property name="geometry">
-     <rect>
-      <x>800</x>
-      <y>10</y>
-      <width>481</width>
-      <height>20</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QTabWidget" name="tabWidget_providers">
     <property name="geometry">
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>791</width>
+      <width>1851</width>
       <height>1041</height>
      </rect>
     </property>
@@ -73,9 +37,9 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>30</y>
+        <y>50</y>
         <width>781</width>
-        <height>991</height>
+        <height>961</height>
        </rect>
       </property>
       <property name="sizeAdjustPolicy">
@@ -160,8 +124,8 @@
      <widget class="QComboBox" name="comboBox_2">
       <property name="geometry">
        <rect>
-        <x>106</x>
-        <y>0</y>
+        <x>110</x>
+        <y>10</y>
         <width>91</width>
         <height>22</height>
        </rect>
@@ -206,8 +170,8 @@
      <widget class="QComboBox" name="cbBox_Location">
       <property name="geometry">
        <rect>
-        <x>636</x>
-        <y>0</y>
+        <x>610</x>
+        <y>10</y>
         <width>81</width>
         <height>22</height>
        </rect>
@@ -226,8 +190,8 @@
      <widget class="QComboBox" name="cbBox_grtMoney">
       <property name="geometry">
        <rect>
-        <x>6</x>
-        <y>0</y>
+        <x>10</x>
+        <y>10</y>
         <width>91</width>
         <height>22</height>
        </rect>
@@ -272,14 +236,50 @@
      <widget class="QPushButton" name="btn_search_LH">
       <property name="geometry">
        <rect>
-        <x>720</x>
-        <y>0</y>
-        <width>61</width>
+        <x>710</x>
+        <y>10</y>
+        <width>71</width>
         <height>21</height>
        </rect>
       </property>
       <property name="text">
        <string>Search</string>
+      </property>
+     </widget>
+     <widget class="QTabWidget" name="tabWidget_webLH">
+      <property name="geometry">
+       <rect>
+        <x>790</x>
+        <y>50</y>
+        <width>1051</width>
+        <height>981</height>
+       </rect>
+      </property>
+      <property name="currentIndex">
+       <number>-1</number>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btn_webSearch">
+      <property name="geometry">
+       <rect>
+        <x>1280</x>
+        <y>10</y>
+        <width>75</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Search</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_url">
+      <property name="geometry">
+       <rect>
+        <x>790</x>
+        <y>10</y>
+        <width>481</width>
+        <height>20</height>
+       </rect>
       </property>
      </widget>
     </widget>
@@ -293,9 +293,65 @@
         <x>0</x>
         <y>50</y>
         <width>781</width>
-        <height>921</height>
+        <height>961</height>
        </rect>
       </property>
+      <property name="editTriggers">
+       <set>QAbstractItemView::NoEditTriggers</set>
+      </property>
+      <property name="selectionBehavior">
+       <enum>QAbstractItemView::SelectRows</enum>
+      </property>
+      <column>
+       <property name="text">
+        <string>등록일</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>주소</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>보증금</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>월세</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>관리비</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>층</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>면적</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>X</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Y</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>ID</string>
+       </property>
+      </column>
      </widget>
      <widget class="QPushButton" name="btn_search_ZB">
       <property name="geometry">
@@ -323,6 +379,42 @@
        <string>아차산</string>
       </property>
      </widget>
+     <widget class="QTabWidget" name="tabWidget_webZB">
+      <property name="geometry">
+       <rect>
+        <x>790</x>
+        <y>50</y>
+        <width>1051</width>
+        <height>971</height>
+       </rect>
+      </property>
+      <property name="currentIndex">
+       <number>-1</number>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btn_webSearch_2">
+      <property name="geometry">
+       <rect>
+        <x>1280</x>
+        <y>10</y>
+        <width>75</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Search</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_url_2">
+      <property name="geometry">
+       <rect>
+        <x>790</x>
+        <y>10</y>
+        <width>481</width>
+        <height>20</height>
+       </rect>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="DB">
      <attribute name="title">
@@ -340,27 +432,14 @@
      </widget>
     </widget>
    </widget>
-   <widget class="QTabWidget" name="tabWidget_detail">
-    <property name="geometry">
-     <rect>
-      <x>2070</x>
-      <y>40</y>
-      <width>1261</width>
-      <height>1001</height>
-     </rect>
-    </property>
-    <property name="currentIndex">
-     <number>-1</number>
-    </property>
-   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>3335</width>
-     <height>21</height>
+     <width>1855</width>
+     <height>22</height>
     </rect>
    </property>
   </widget>
