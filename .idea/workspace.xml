@@ -1,7 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="3e4e90ab-66c9-4f83-9b2f-d0e245e8356f" name="Default Changelist" comment="" />
+    <list default="true" id="3e4e90ab-66c9-4f83-9b2f-d0e245e8356f" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/rooms.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/pycharm.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/pycharm.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/get_lh_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/get_lh_list.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -13,6 +36,7 @@
   <component name="GitToolBoxStore">
     <option name="projectConfigVersion" value="2" />
   </component>
+  <component name="JupyterTrust" id="57d2124e-78e3-4fd9-9d3a-14ec8feb8d55" />
   <component name="ProjectId" id="1ebsLD0S4dKeBm6KvtlE76ESlX3" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -21,6 +45,8 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RunManager">
@@ -31,11 +57,12 @@
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
-      <option name="SDK_HOME" value="" />
+      <option name="SDK_HOME" value="C:\Users\user\AppData\Local\Programs\Python\Python37\python.exe" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
+      <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/get_lh_list.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -51,6 +78,7 @@
       </list>
     </recent_temporary>
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -61,8 +89,36 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1594601568614</updated>
+      <workItem from="1596588879519" duration="670000" />
+      <workItem from="1596767268574" duration="843000" />
+      <workItem from="1597026469903" duration="1976000" />
+      <workItem from="1597115197117" duration="94000" />
+      <workItem from="1597899343647" duration="1197000" />
+      <workItem from="1597975440499" duration="1033000" />
+      <workItem from="1598321031853" duration="672000" />
+      <workItem from="1598491835542" duration="674000" />
+      <workItem from="1598514747899" duration="170000" />
+      <workItem from="1598592802692" duration="475000" />
+      <workItem from="1598929786263" duration="65000" />
+      <workItem from="1599126898762" duration="122000" />
+      <workItem from="1599713549314" duration="148000" />
     </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
     <state x="992" y="418" key="#com.intellij.tools.ToolEditorDialog" timestamp="1594601774997">
@@ -73,9 +129,52 @@
       <screen x="0" y="0" width="3840" height="1160" />
     </state>
     <state x="931" y="180" key="#get_lh_list/0.0.3840.1160@0.0.3840.1160" timestamp="1594601904254" />
+    <state x="2694" y="370" key="FileChooserDialogImpl" timestamp="1598929830042">
+      <screen x="0" y="0" width="3840" height="1160" />
+    </state>
+    <state x="2694" y="370" key="FileChooserDialogImpl/0.0.3840.1160@0.0.3840.1160" timestamp="1598929830042" />
+    <state width="933" height="315" key="GridCell.Tab.0.bottom" timestamp="1599713697444">
+      <screen x="0" y="0" width="3840" height="1160" />
+    </state>
+    <state width="933" height="315" key="GridCell.Tab.0.bottom/0.0.3840.1160@0.0.3840.1160" timestamp="1599713697444" />
+    <state width="933" height="315" key="GridCell.Tab.0.center" timestamp="1599713697444">
+      <screen x="0" y="0" width="3840" height="1160" />
+    </state>
+    <state width="933" height="315" key="GridCell.Tab.0.center/0.0.3840.1160@0.0.3840.1160" timestamp="1599713697444" />
+    <state width="933" height="315" key="GridCell.Tab.0.left" timestamp="1599713697444">
+      <screen x="0" y="0" width="3840" height="1160" />
+    </state>
+    <state width="933" height="315" key="GridCell.Tab.0.left/0.0.3840.1160@0.0.3840.1160" timestamp="1599713697444" />
+    <state width="933" height="315" key="GridCell.Tab.0.right" timestamp="1599713697444">
+      <screen x="0" y="0" width="3840" height="1160" />
+    </state>
+    <state width="933" height="315" key="GridCell.Tab.0.right/0.0.3840.1160@0.0.3840.1160" timestamp="1599713697444" />
+    <state width="935" height="385" key="GridCell.Tab.1.bottom" timestamp="1597984096628">
+      <screen x="0" y="0" width="3840" height="1160" />
+    </state>
+    <state width="935" height="385" key="GridCell.Tab.1.bottom/0.0.3840.1160@0.0.3840.1160" timestamp="1597984096628" />
+    <state width="935" height="385" key="GridCell.Tab.1.center" timestamp="1597984096628">
+      <screen x="0" y="0" width="3840" height="1160" />
+    </state>
+    <state width="935" height="385" key="GridCell.Tab.1.center/0.0.3840.1160@0.0.3840.1160" timestamp="1597984096628" />
+    <state width="935" height="385" key="GridCell.Tab.1.left" timestamp="1597984096628">
+      <screen x="0" y="0" width="3840" height="1160" />
+    </state>
+    <state width="935" height="385" key="GridCell.Tab.1.left/0.0.3840.1160@0.0.3840.1160" timestamp="1597984096628" />
+    <state width="935" height="385" key="GridCell.Tab.1.right" timestamp="1597984096628">
+      <screen x="0" y="0" width="3840" height="1160" />
+    </state>
+    <state width="935" height="385" key="GridCell.Tab.1.right/0.0.3840.1160@0.0.3840.1160" timestamp="1597984096628" />
     <state x="726" y="233" key="SettingsEditor" timestamp="1594601869534">
       <screen x="0" y="0" width="3840" height="1160" />
     </state>
     <state x="726" y="233" key="SettingsEditor/0.0.3840.1160@0.0.3840.1160" timestamp="1594601869534" />
+    <state x="2694" y="491" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1596767518505">
+      <screen x="0" y="0" width="3840" height="1160" />
+    </state>
+    <state x="2694" y="491" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.3840.1160@0.0.3840.1160" timestamp="1596767518505" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/get_lh_rent_house_list$get_lh_list.coverage" NAME="get_lh_list Coverage Results" MODIFIED="1599713560145" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

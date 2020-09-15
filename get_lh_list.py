@@ -65,7 +65,7 @@ class MainWindow(QMainWindow, form_class):
         # LH Data Table 생성
         self.CreateTableLH()
         self.CreateTableZB()
-        self.InitLHDB()
+        # self.InitLHDB()
 
         self.tableWidget_LH.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.btn_search_LH.clicked.connect(self.ClickedSearchBtnLH)
@@ -229,7 +229,7 @@ class MainWindow(QMainWindow, form_class):
         pass
 
     def InitLHDB(self):
-        for i in range(1, 5):
+        for i in range(1, 20):
             html = requests.post(LH_URL + str(i), setHouseLHInfo[self.cbBox_Location.currentText()])
 
             try:
